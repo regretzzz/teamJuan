@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styleRayven.css" rel="stylesheet">
+    <link href="font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/fonts.css" rel="stylesheet">
+</head>
+
+<body cite = "http://idealphotography.biz/city-wallpaper-widescreen/hd-city-wallpaper-widescreen-about-hd-wallpaper-with-city-wallpaper-widescreen-download-hd-wallpaper/">
+	<nav class="navbar navbar-custom navbar-static-top" role="navigation">
+	    	<div class="col-xs-12">
+		        <ul class="nav navbar-nav">
+		        	<div class="navbar-header active"><li><a href="Home.html" id="logo"><img src="images/logo1.png" class="brandLogo"> <span class="h2 brandName">JuanJobs</span></a></li></div>
+		            
+		        </ul>
+		        <ul class="nav navbar-nav navbar-right">
+				     <li><a href="#" data-toggle="modal" data-target="#signUp"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+				     <li><a href="#" data-toggle="modal" data-target="#login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    			</ul>
+	        </div>
+	    </div>
+	</nav>
+	<div class="container-fluid">
+		<div class="h1"> <strong>Juan Job at a Time</strong>!</div>
+		<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+				<div class="contQuote">
+					<div class="h2"><em>"Opportunities are like sunrises. If you wait too long, you miss them."</em></div><em class="quoteBy"> <strong>-William Arthur Ward</strong></em>
+				</div >
+			</div>
+		</div>
+		<br>
+		<div class="row">
+		<div class="col-md-4">
+		</div>
+			<div class="col-md-4">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>	
+		</div>
+	<!--Sign Up Modal-->
+	<div class="modal fade " id="signUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	 <div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">Sign Up</h4>
+		  </div>
+		  <div class="modal-body SignUp">
+		  <div class="form-group form-inline">
+			<input type="email" class="form-control" placeholder="First Name">
+			<input type="email" class="form-control" placeholder="Last Name">
+		  </div>
+		  <div class="form-group">
+			<input type="email" class="form-control" placeholder="Mobile number or email">
+		  </div>
+		  <div class="form-group">
+			<input type="email" class="form-control" placeholder="Re-enter mobile number or email">
+		  </div>
+		  <div class="form-group">
+			<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+		  </div> 
+			<p>Account type:<br>
+			<input type="radio" class="but" value="employer"> Employer  
+			<input type="radio" class="but" value="employee"> Employee</p>
+			<br>
+			<p>Gender: <br>
+			<input type="radio" value="male"> Male
+			<input type="radio" value="female"> Female</p>
+		</form>
+		</div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary">Sign Up</button>
+		  </div>
+		</div>
+	 </div>
+	</div>
+	
+	<!--LogIn Modal-->
+	<div class="modal fade " id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	
+	<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Login</h4>
+	  </div>
+	  <div class="modal-body">
+		<form class="fillup">
+		  <div class="form-group">
+			<label>Email address</label>
+			<input id="emailAdd" type="email" class="form-control" placeholder="Email" value=" ">
+		  </div>
+		  <?php 
+			if (empty($_POST["email"])) {
+				emailErr = "Email is required";
+			} else {
+				email = test_input($_POST["email"]);
+			//check if e-mail address is well-formed
+				if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+					$emailErr = "Invalid email format";
+				}
+			}
+		  ?>
+		  <div class="form-group">
+			<label>Password</label>
+			<input id="pasword" type="password" class="form-control" placeholder="Password" >
+		  </div>
+			
+		  <div class="checkbox">
+			<label>
+			  <input type="checkbox"> Keep me logged in.
+			</label>
+		  </div>
+		  <?php
+			$con=mysqli_connect("127.0.0.1", "root", "", "my_db");
+			if (mysqli_connect_errno($con)){
+				echo "MySql Error: " . mysqli_connect_error();
+			}
+			$query=mysqli_query($con,"SELECT * FROM employee WHERE username='$_POST[myusername]' && password='$_POST[mypassword]'");
+			$count=mysqli_num_rows($query);
+			$row=mysqli_fetch_array($query);
+
+			if ($count==1){
+				session_start();
+				$_SESSION['username'] = $_POST['myusername'];
+				$_SESSION['password'] = $_POST['mypassword'];
+				header("location: login_success.php");
+			}else{
+				echo "Invalid username or password";
+			}   
+
+			mysqli_close($con);
+			}
+			?>
+		</form>
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" class="btn btn-primary">Login</button>
+	  </div>
+	</div>
+	</div>
+	div>
+	
+	
+</body>
+
+
+</html>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
